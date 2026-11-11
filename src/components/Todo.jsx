@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import AddForm from "./AddForm";
 import { useDispatch } from "react-redux";
 import { deleteTodo } from "../features/todo/todoSlice";
+import { marksAsDone } from "../features/todo/todoSlice";
 
 export default function Todo() {
     const todos = useSelector((state) => state.todos);
@@ -13,15 +14,24 @@ export default function Todo() {
         dispatch(deleteTodo(id));
     };
 
+    const markAsDoneHandler = (id) => {
+        console.log("Mark As Done", id);
+        dispatch(marksAsDone(id));
+    }
+
     return (
         <>
-            <AddForm />
-            <h2>Todo List App</h2>
+            <AddForm /> 
+            <hr />
+            <h2>Tasks ToDo</h2>
             <ul>
                 {todos.map((todo) => (
                     <li key={todo.id}>
-                        {todo.task}
+                        <span style={{ textDecoration: todo.isDone ? "line-through" : "none" }}>
+                            {todo.task}
+                        </span>
                         <button onClick={() => clickHandler(todo.id)}>Delete</button>
+                        <button onClick={() => markAsDoneHandler(todo.id)}>{todo.isDone ? "Undo" : "Mark as Done"}</button>
                     </li>
                 ))}
             </ul>

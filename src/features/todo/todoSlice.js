@@ -1,7 +1,7 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit'
 
 const initialState = {
-    todos: [{id: "abc", task: "demo-task", isDone: false}],
+    todos: [],
 };
 
 export const todoSlice = createSlice({
@@ -21,9 +21,10 @@ export const todoSlice = createSlice({
         },
         marksAsDone: (state, action) => {
             state.todos = state.todos.map((todo) => {
-                if(todo.id === action.payload) {
-                    todo.isDone = true;
+                if (todo.id === action.payload) {
+                    return { ...todo, isDone: !todo.isDone }; // Toggles between true and false
                 }
+                return todo;
             });
         },
     },
